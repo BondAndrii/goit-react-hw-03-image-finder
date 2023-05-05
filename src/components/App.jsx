@@ -5,7 +5,7 @@ import Loader from "./Loader";
 import Button from "./Button";
 import ImageGallery from "./ImageGallery";
 import Modal from "./Modal";
-import picturesApi from '../services/api'
+import Api  from "services/api";
 import './styles.css'
 
 export default class App extends Component {
@@ -24,9 +24,11 @@ export default class App extends Component {
     const {searchName, page, images} = this.state;         
         if (prevState.searchName !== searchName || prevState.page !== page)
             try {
-              this.setState({ status: 'pending' })// Взводим умову для загрузки лоадера              
-              picturesApi.fetchPictures(searchName, page)
-                .then(data => {
+              this.setState({ status: 'pending' })// Взводим умову для загрузки лоадера 
+              
+              Api.fetchPictures(searchName, page)
+                .then(responce => {
+                  const { data } = responce;
                       const imagesList = data.hits;
                       const totalHits = data.totalHits;
                       if (imagesList.length === 0) {
